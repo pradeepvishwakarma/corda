@@ -5,12 +5,14 @@ import com.example.flow.ExampleFlow.StressTestFlow
 import com.example.flow.ExampleFlow.SubscriberFlow
 import com.example.schema.IOUSchemaV1
 import com.example.state.IOUState
+import net.corda.core.contracts.TransactionState
 import net.corda.core.identity.CordaX500Name
 import net.corda.core.messaging.CordaRPCOps
 import net.corda.core.messaging.startTrackedFlow
 import net.corda.core.messaging.vaultQueryBy
 import net.corda.core.node.services.IdentityService
 import net.corda.core.node.services.Vault
+import net.corda.core.node.services.vault.PageSpecification
 import net.corda.core.node.services.vault.QueryCriteria
 import net.corda.core.node.services.vault.builder
 import net.corda.core.utilities.getOrThrow
@@ -46,6 +48,7 @@ class ExampleApi(private val rpcOps: CordaRPCOps) {
     @Path("subscribe")
     @Produces(MediaType.APPLICATION_JSON)
     fun subscribeMe() : Map<String, Boolean>  {
+
         val status = rpcOps.startTrackedFlow(::SubscriberFlow).returnValue.getOrThrow()
         return mapOf("Status" to status)
     }
@@ -97,7 +100,6 @@ class ExampleApi(private val rpcOps: CordaRPCOps) {
                 return Response.status(BAD_REQUEST).entity("Party named $partyName cannot be found.\n").build()
 
         return try {
-
             rpcOps.startTrackedFlow(::StressTestFlow, iouValue, otherParty).returnValue.getOrThrow()
 
             Response.status(CREATED).entity("Transaction committed to ledger.\n").build()
