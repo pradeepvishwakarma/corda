@@ -46,9 +46,9 @@ object ExampleFlow {
         @Suspendable
         override fun call() : Boolean{
 
-          //  val pageSpec = PageSpecification(1, 10)
-          //  val criteria: QueryCriteria.LinearStateQueryCriteria = QueryCriteria.LinearStateQueryCriteria()
-            val results = serviceHub.vaultService.trackBy(contractStateType = IOUState::class.java)//, criteria = criteria, paging = pageSpec)
+            val pageSpec = PageSpecification(1, 10)
+            val criteria: QueryCriteria.LinearStateQueryCriteria = QueryCriteria.LinearStateQueryCriteria()
+            val results = serviceHub.vaultService.trackBy(contractStateType = IOUState::class.java, criteria = criteria, paging = pageSpec)
             val updates= results.updates
             logger.info("called for subscription")
             val vaultSub = updates.subscribe {
@@ -61,8 +61,8 @@ object ExampleFlow {
         fun processUpdates(update : Vault.Update<IOUState>){
             val criteria: QueryCriteria.LinearStateQueryCriteria = QueryCriteria.LinearStateQueryCriteria(status =  Vault.StateStatus.UNCONSUMED)
             val results=  serviceHub.vaultService.queryBy<IOUState>(criteria=criteria,paging = PageSpecification(1,10))
-            val recordCount= results.states.count()
-            logger.info("total record count is "+ recordCount)
+            val recordCount= results.totalStatesAvailable
+            logger.info("total record count is $recordCount")
         }
     }
 
