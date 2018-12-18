@@ -13,6 +13,7 @@ import net.corda.core.messaging.vaultQueryBy
 import net.corda.core.node.services.IdentityService
 import net.corda.core.node.services.Vault
 import net.corda.core.node.services.queryBy
+import net.corda.core.node.services.vault.MAX_PAGE_SIZE
 import net.corda.core.node.services.vault.PageSpecification
 import net.corda.core.node.services.vault.QueryCriteria
 import net.corda.core.node.services.vault.builder
@@ -97,7 +98,7 @@ class ExampleApi(private val rpcOps: CordaRPCOps) {
     @GET
     @Path("ious")
     @Produces(MediaType.APPLICATION_JSON)
-    fun getIOUs() = rpcOps.vaultQueryBy<IOUState>().states
+    fun getIOUs() = rpcOps.vaultQueryBy<IOUState>(criteria = QueryCriteria.LinearStateQueryCriteria(), paging = PageSpecification(1, MAX_PAGE_SIZE)).states
 
     /**
      * Initiates a flow to agree an IOU between two parties.
@@ -145,7 +146,7 @@ class ExampleApi(private val rpcOps: CordaRPCOps) {
                 var partyType = IOUSchemaV1.PersistentIOU::lenderName.equal(rpcOps.nodeInfo().legalIdentities.first().name.toString())
                 val customCriteria = QueryCriteria.VaultCustomQueryCriteria(partyType)
                 val criteria = generalCriteria.and(customCriteria)
-                val results = rpcOps.vaultQueryBy<IOUState>(criteria).states
+                val results = rpcOps.vaultQueryBy<IOUState>(criteria = criteria, paging = PageSpecification(1, MAX_PAGE_SIZE)).states
                 return Response.ok(results).build()
         }
     }
