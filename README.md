@@ -4,7 +4,7 @@
 
 # Modified Example CorDapp to show subscription and DB issue
 
-The intention of this sample is to show a possible bug when using subscription feature from Service Hub. **The sample aims to show that if we try use ServiceHub to subscribe to DB updates and then access the DB from the subscription update then there is an exception and the system hangs.The same functionality works well if using CordaRPCOps**
+The intention of this sample is to show a possible bug when using subscription feature from Service Hub. **The sample aims to show that if we try to use ServiceHub to subscribe to vault updates and then access the vault/db from the vault updates then there is an exception and the system hangs.The same functionality works well if using CordaRPCOps**
 
 The basic IOU sample has been modified to show the issue. We have modified the sample to _create 30 IOUs_ at one time and given two buttons for subscription.
 
