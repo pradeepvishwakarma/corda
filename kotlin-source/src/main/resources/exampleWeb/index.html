@@ -36,6 +36,8 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
             <a class="navbar-brand" href="#">{{demoApp.thisNode}}</a>
         </div>
         <button ng-click="demoApp.openModal()" type="button" class="btn btn-primary navbar-btn">Create IOU</button>
+        <button ng-click="demoApp.subscribe()" type="button" class="btn btn-primary navbar-btn">Subscribe Vault</button>
+        <button ng-click="demoApp.apisubscribe()" type="button" class="btn btn-primary navbar-btn">API Subscribe Vault</button>
     </div>
 </nav>
 <script type="text/ng-template" id="demoAppModal.html">
@@ -64,8 +66,7 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
         </div>
         <div class="modal-footer">
             <button ng-click="modalInstance.cancel()" type="button" class="btn btn-default">Close</button>
-            <button ng-click="modalInstance.create()" type="button" class="btn btn-primary">Create 100 IOU</button>
-
+            <button ng-click="modalInstance.create()" type="button" class="btn btn-primary">Create 30 IOU</button>
         </div>
     </form>
 </script>

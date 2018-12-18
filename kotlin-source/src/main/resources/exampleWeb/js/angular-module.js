@@ -59,6 +59,40 @@ app.controller('DemoAppController', function($http, $location, $uibModal) {
             .map((key) => response.data[key].state.data)
             .reverse());
 
+
+    // Subscribe vault
+     demoApp.subscribe = () => {
+
+             const subscribeEndpoint = `${apiBaseURL}subscribe`;
+
+             // Subscribe vault and handle success / fail responses.
+             $http.get(subscribeEndpoint).then(
+                   (result) => {
+                            alert("Vault subscribed!");
+                         },
+                         (result) => {
+                            alert("Server Error!")
+                         }
+                   );
+        }
+
+        // APISubscribe vault
+        demoApp.apisubscribe = () => {
+
+                     const subscribeEndpoint = `${apiBaseURL}apisubscribe`;
+
+                     // Subscribe vault and handle success / fail responses.
+                     $http.get(subscribeEndpoint).then(
+                           (result) => {
+                                    alert("API vault subscribed!");
+                                 },
+                                 (result) => {
+                                    alert("Server Error!")
+                                 }
+                           );
+                }
+
+
     demoApp.getIOUs();
     demoApp.getMyIOUs();
 });
@@ -109,6 +143,8 @@ app.controller('ModalInstanceCtrl', function ($http, $location, $uibModalInstanc
 
     // Close create IOU modal dialogue.
     modalInstance.cancel = () => $uibModalInstance.dismiss();
+
+
 
     // Validate the IOU.
     function invalidFormInput() {
