@@ -61,7 +61,7 @@ object ExampleFlow {
         fun processUpdates(update : Vault.Update<IOUState>){
             val criteria: QueryCriteria.LinearStateQueryCriteria = QueryCriteria.LinearStateQueryCriteria(status =  Vault.StateStatus.UNCONSUMED)
             val results=  serviceHub.vaultService.queryBy<IOUState>(criteria=criteria,paging = PageSpecification(1,10))
-            val recordCount= results.states.count()
+            val recordCount= results.totalStatesAvailable
             logger.info("total record count is "+ recordCount)
         }
     }
