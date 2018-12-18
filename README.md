@@ -8,8 +8,8 @@ The intention of this sample is to show a possible bug when using subscription f
 
 The basic IOU sample has been modified to show the issue. We have modified the sample to create 30 IOUs at one time and given two buttons for subscription.
 
-Clicking on Subscribe will subscribe to updates using the Service Hub and the system might stop functioning after a few IOU creations.
-Clicking on Subscribe via API will subscribe to updates using the RPCOps and the system will continue working well
+Clicking on *Subscribe* will subscribe to updates using the Service Hub and the system might stop functioning after a few IOU creations.
+Clicking on *Subscribe via API* will subscribe to updates using the RPCOps and the system will continue working well
 
 # Steps to Reproduce
 1. Run the nodes using runnodes.bat
@@ -17,10 +17,10 @@ Clicking on Subscribe via API will subscribe to updates using the RPCOps and the
 3. Open up the example UI on http://localhost:10012/web/example/
 4. Click on CreateIOU to create an IOU with amount less than 70. Click on create 30 IOU buttons 
 5. Click on Subscribe via API
-6. Again click on CreateIOU and create as many IOUs . Everything works well
+6. Again click on CreateIOU and create as many IOUs . Everything works well. Logs can be checked for PartyB to see that subscription is working by checking for the following text *API total record count is*
 7. Click on Subscribe 
 8. Click on CreateIOU and create another 30 IOUs. The system will not be able to create all 30 IOUs and will stop after creating a few
-Inspection of logs will show the following exception
+Inspection of logs will show subscription stopped after a few IOUs and then there was the following exception
 
 ## Exception
 ```
