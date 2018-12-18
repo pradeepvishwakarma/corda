@@ -19,7 +19,8 @@ Clicking on **API Subscribe Vault** will subscribe to updates using the CordaRPC
 5. Click on **API Subscribe Vault**. Corresponding code can be seen at *com/example/api/ExampleApi.kt fun subscribeAPI()*
 6. Again click on CreateIOU and create as many IOUs . Everything works well. _Logs can be checked for PartyB Web server under build\nodes\PartyB\logs\web/_**  to see that subscription is working by checking for the following text:-  **API total record count is**
 7. Click on **Subscribe Vault**. Corresponding code can be seen at ...kotlin\com\example\flow\ExampleFlow.kt SubscriberFlow()
-8. Click on CreateIOU and create another 30 IOUs. **The system will not be able to create all 30 IOUs and will stop after creating a few**. If subscription updates work then corresponding log gets generated **total record count is**
+8. Click on CreateIOU and create another 30 IOUs. **The system will not be able to create all 30 IOUs and will stop after creating a few**. If subscription updates work then corresponding log gets generated:-  **total record count is**. 
+
 Inspection of logs at _build\nodes\PartyB\logs_ will show **subscription stopped after a few IOUs (Approx 9) and then there was the following exception**
 
 ## Exception
