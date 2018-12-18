@@ -2,7 +2,7 @@
   <img src="https://www.corda.net/wp-content/uploads/2016/11/fg005_corda_b.png" alt="Corda" width="500">
 </p>
 
-# Example CorDapp
+# Modified Example CorDapp to show subscription and DB issue
 
 The intention of this sample is to show a possible bug when using subscription feature from Service Hub. The sample aims to show that if we try use ServiceHub to subscribe to DB updates and thenaccess the DB from the subscription update then there is an exception and the system hangs.The same functionality works well if using RPC
 
