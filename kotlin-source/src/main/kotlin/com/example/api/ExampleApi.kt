@@ -12,6 +12,7 @@ import net.corda.core.messaging.startTrackedFlow
 import net.corda.core.messaging.vaultQueryBy
 import net.corda.core.node.services.IdentityService
 import net.corda.core.node.services.Vault
+import net.corda.core.node.services.queryBy
 import net.corda.core.node.services.vault.PageSpecification
 import net.corda.core.node.services.vault.QueryCriteria
 import net.corda.core.node.services.vault.builder
@@ -52,6 +53,26 @@ class ExampleApi(private val rpcOps: CordaRPCOps) {
         val status = rpcOps.startTrackedFlow(::SubscriberFlow).returnValue.getOrThrow()
         return mapOf("Status" to status)
     }
+
+    @GET
+    @Path("apisubscribe")
+    @Produces(MediaType.TEXT_PLAIN)
+    fun subscribeAPI() :String{
+
+        val results = rpcOps.vaultTrack(contractStateType = IOUState::class.java)//, criteria = criteria, paging = pageSpec)
+        val updates= results.updates
+        logger.info("called API for subscription")
+        val vaultSub = updates.subscribe {
+            update ->  val criteria: QueryCriteria.LinearStateQueryCriteria = QueryCriteria.LinearStateQueryCriteria(status =  Vault.StateStatus.UNCONSUMED)
+            val results=  rpcOps.vaultQueryBy<IOUState>(criteria=criteria,paging = PageSpecification(1,10))
+            val recordCount= results.states.count()
+            logger.info("API total record count is "+ recordCount)
+
+        }
+        return "subscribed"
+    }
+
+
 
     /**
      * Returns all parties registered with the [NetworkMapService]. These names can be used to look up identities
