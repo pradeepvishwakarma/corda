@@ -6,10 +6,10 @@
 
 The intention of this sample is to show a possible bug when using subscription feature from Service Hub. The sample aims to show that if we try use ServiceHub to subscribe to DB updates and thenaccess the DB from the subscription update then there is an exception and the system hangs.The same functionality works well if using CordaRPCOps
 
-The basic IOU sample has been modified to show the issue. We have modified the sample to create 30 IOUs at one time and given two buttons for subscription.
+The basic IOU sample has been modified to show the issue. We have modified the sample to _create 30 IOUs_ at one time and given two buttons for subscription.
 
-Clicking on *Subscribe* will subscribe to updates using the Service Hub and the system might stop functioning after a few IOU creations.
-Clicking on *Subscribe via API* will subscribe to updates using the CordaRPCOps and the system will continue working well
+Clicking on *Subscribe Vault* will subscribe to updates using the Service Hub and the system might stop functioning after a few IOU creations.
+Clicking on *API Subscribe Vault* will subscribe to updates using the CordaRPCOps and the system will continue working well
 
 # Steps to Reproduce
 1. Run the nodes using runnodes.bat
