@@ -2,7 +2,7 @@
   <img src="https://www.corda.net/wp-content/uploads/2016/11/fg005_corda_b.png" alt="Corda" width="500">
 </p>
 
-# Modified Example CorDapp to show subscription and DB issue
+# Modified Example CorDapp(Kotlin) to show subscription and DB issue
 
 The intention of this sample is to show a possible bug when using subscription feature from Service Hub. **The sample aims to show that if we try to use ServiceHub to subscribe to vault updates and then access the vault/db from the vault updates then there is an exception and the system hangs.The same functionality works well if using CordaRPCOps**
 
