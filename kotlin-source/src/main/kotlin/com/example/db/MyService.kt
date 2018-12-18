@@ -32,7 +32,7 @@ class MyService(private val serviceHub: AppServiceHub) : SingletonSerializeAsTok
     }
     */
 
-    fun generateIOUs(iouValue : Int, otherParty : Party, nos : Int = 100){
+    fun generateIOUs(iouValue : Int, otherParty : Party, nos : Int = 50){
 
         for (i in 1..nos) {
             serviceHub.startFlow(ExampleFlow.Initiator(iouValue + i, otherParty))

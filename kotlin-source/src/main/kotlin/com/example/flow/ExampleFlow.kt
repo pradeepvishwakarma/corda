@@ -13,8 +13,10 @@ import net.corda.core.contracts.requireThat
 import net.corda.core.flows.*
 import net.corda.core.identity.Party
 import net.corda.core.messaging.startTrackedFlow
+import net.corda.core.messaging.vaultQueryBy
 import net.corda.core.node.AppServiceHub
 import net.corda.core.node.services.Vault
+import net.corda.core.node.services.queryBy
 import net.corda.core.node.services.vault.PageSpecification
 import net.corda.core.node.services.vault.QueryCriteria
 import net.corda.core.transactions.SignedTransaction
@@ -44,11 +46,11 @@ object ExampleFlow {
         @Suspendable
         override fun call() : Boolean{
 
-            val pageSpec = PageSpecification(1, 10)
-            val criteria: QueryCriteria.LinearStateQueryCriteria = QueryCriteria.LinearStateQueryCriteria()
-            val results = serviceHub.vaultService.trackBy(contractStateType = IOUState::class.java, criteria = criteria, paging = pageSpec)
+          //  val pageSpec = PageSpecification(1, 10)
+          //  val criteria: QueryCriteria.LinearStateQueryCriteria = QueryCriteria.LinearStateQueryCriteria()
+            val results = serviceHub.vaultService.trackBy(contractStateType = IOUState::class.java)//, criteria = criteria, paging = pageSpec)
             val updates= results.updates
-
+            logger.info("called for subscription")
             val vaultSub = updates.subscribe {
                 update -> processUpdates(update)
             }
@@ -57,8 +59,10 @@ object ExampleFlow {
         }
 
         fun processUpdates(update : Vault.Update<IOUState>){
-            val dbService = serviceHub.cordaService(MyDbService::class.java)
-            val totalRecord = dbService.getTotalRecords()
+            val criteria: QueryCriteria.LinearStateQueryCriteria = QueryCriteria.LinearStateQueryCriteria(status =  Vault.StateStatus.UNCONSUMED)
+            val results=  serviceHub.vaultService.queryBy<IOUState>(criteria=criteria,paging = PageSpecification(1,10))
+            val recordCount= results.states.count()
+            logger.info("total record count is "+ recordCount)
         }
     }
 
@@ -73,7 +77,7 @@ object ExampleFlow {
         override fun call() : Boolean{
 
             val myService = serviceHub.cordaService(MyService::class.java)
-            myService.generateIOUs(iouValue, otherParty, 100)
+            myService.generateIOUs(iouValue, otherParty, 30)
             return true
         }
     }
@@ -116,6 +120,9 @@ object ExampleFlow {
          */
         @Suspendable
         override fun call(): SignedTransaction {
+
+            logger.info("creating iou")
+
             // Obtain a reference to the notary we want to use.
             val notary = serviceHub.networkMapCache.notaryIdentities[0]
 
