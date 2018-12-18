@@ -59,15 +59,17 @@ class ExampleApi(private val rpcOps: CordaRPCOps) {
     @Produces(MediaType.TEXT_PLAIN)
     fun subscribeAPI() :String{
 
-        val results = rpcOps.vaultTrack(contractStateType = IOUState::class.java)//, criteria = criteria, paging = pageSpec)
+        val criteria: QueryCriteria.LinearStateQueryCriteria = QueryCriteria.LinearStateQueryCriteria(status =  Vault.StateStatus.UNCONSUMED)
+        val results = rpcOps.vaultTrackByWithPagingSpec(contractStateType = IOUState::class.java, criteria = criteria ,paging = PageSpecification(1,10))
         val updates= results.updates
+
         logger.info("called API for subscription")
         val vaultSub = updates.subscribe {
-            update ->  val criteria: QueryCriteria.LinearStateQueryCriteria = QueryCriteria.LinearStateQueryCriteria(status =  Vault.StateStatus.UNCONSUMED)
+            update ->
+            val criteria: QueryCriteria.LinearStateQueryCriteria = QueryCriteria.LinearStateQueryCriteria(status =  Vault.StateStatus.UNCONSUMED)
             val results=  rpcOps.vaultQueryBy<IOUState>(criteria=criteria,paging = PageSpecification(1,10))
-            val recordCount= results.states.count()
-            logger.info("API total record count is "+ recordCount)
-
+            val recordCount = results.totalStatesAvailable
+            logger.info("API total record count is $recordCount")
         }
         return "subscribed"
     }
