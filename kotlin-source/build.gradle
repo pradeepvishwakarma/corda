@@ -57,6 +57,7 @@ dependencies {
     // CorDapp dependencies
     // Specify your cordapp's dependencies below, including dependent CorDapps
     cordapp "$corda_release_group:corda-finance:$corda_release_version"
+    compile "io.bluebank.braid:braid-corda:3.3.0"
 }
 
 task integrationTest(type: Test, dependsOn: []) {
