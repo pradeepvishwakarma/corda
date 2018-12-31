@@ -24,9 +24,6 @@ function onError(err) {
 }
 
 /*
-
-Branch : It's our lumedic enrollment poc branch. (task/flow-observer-node)
-
 Server : Run the cordapp's as usual.
 
 Client : We have added a folder called "client-js". please follow the step to run the client as
