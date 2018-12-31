@@ -18,6 +18,8 @@ The basic IOU sample has been modified to show the issue and created a sample no
    b) Generate 100 IOU's for the party by executing **generateIOUs**
 
 
+If subscription updates work then corresponding log gets generated:-  **subscribeVaultUpdates : TotalRecord : 9**.
+
 Inspection of logs at _build\nodes\PartyB\logs_ will show **subscription stopped after a few IOUs (Approx 9) and then there was the following exception**
 
 ## Exception
