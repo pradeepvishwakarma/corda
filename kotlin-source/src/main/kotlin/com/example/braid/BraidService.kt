@@ -5,6 +5,7 @@ import com.example.flow.ExampleFlow
 import com.example.state.IOUState
 import io.bluebank.braid.corda.services.transaction
 import io.vertx.core.Vertx
+import net.corda.core.contracts.StateAndRef
 import net.corda.core.identity.CordaX500Name
 import net.corda.core.identity.Party
 import net.corda.core.node.AppServiceHub
@@ -14,19 +15,29 @@ import net.corda.core.node.services.queryBy
 import net.corda.core.node.services.vault.PageSpecification
 import net.corda.core.node.services.vault.QueryCriteria
 import net.corda.core.serialization.SingletonSerializeAsToken
+import net.corda.core.utilities.loggerFor
+import org.slf4j.Logger
 import rx.Observable
 
 class BraidService(private val serviceHub: AppServiceHub, private val vertx : Vertx) : SingletonSerializeAsToken() {
 
+    companion object {
+        val logger: Logger = loggerFor<BraidService>()
+    }
 
     fun generateIOUs(iouValue : Int, partyName : CordaX500Name, nos : Int = 50){
+
+        logger.info("generateIOUs : Started")
 
         val party = serviceHub.networkMapCache.getNodeByLegalName(partyName)?.legalIdentities?.first()
                 ?: throw IllegalArgumentException("Requested party node $partyName not found on network.")
 
         for (i in 1..nos) {
             serviceHub.startFlow(ExampleFlow.Initiator(iouValue + i, party))
+            logger.info("IOU: $i")
         }
+
+        logger.info("generateIOUs : Finished")
     }
 
     fun subscribeVaultUpdates() : Observable<Long> {
@@ -41,6 +52,7 @@ class BraidService(private val serviceHub: AppServiceHub, private val vertx : Ve
             val vaultSub = updates.subscribe {
                 update ->
                 val totalRecord = calculateTotalRecords()
+                logger.info("subscribeVaultUpdates : TotalRecord : $totalRecord")
                 subscriber.onNext(totalRecord)
             }
 
