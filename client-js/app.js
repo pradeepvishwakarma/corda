@@ -6,13 +6,13 @@ function onOpen() {
     console.log("connected")
 
     // Observe the total iou's created in vault
-    //corda.braidService.subscribeVaultUpdates(re => console.log("Total Record: "+ re))
+    corda.braidService.subscribeVaultUpdates(re => console.log("Total Record: "+ re))
 
     // Generate 100 iou's for the party
-    //corda.braidService.generateIOUs(10, "O=PartyA,L=London,C=GB", 100)
+    corda.braidService.generateIOUs(10, "O=PartyA,L=London,C=GB", 100)
 
     // Get total number of iou's available in vault.
-    corda.braidService.calculateTotalRecords().then(re => console.log(re))
+    //corda.braidService.calculateTotalRecords().then(re => console.log(re))
 
 }
 function onClose() {
