@@ -10,11 +10,11 @@ The basic IOU sample has been modified to show the issue and created a sample no
 
 # Steps to Reproduce
 1. Run the nodes using runnodes.bat
-2. Switch to nodejs client app (Path : ./client-js/). In that we have created a sample nodejs app, which connect to braid server and perform basic operations.
-3. To run the node app. Go to terminal and type **node app.js** + hit enter. Once it is connected, it will perform two action
+2. Switch to nodejs client app directory (Path : ./client-js/). In that we have created a sample nodejs app, which connects to braid server and performs basic operations.
+3. To run the node app. Go to terminal and type **node app.js** then hit enter. Once the app is connected to the braid server, it will perform two actions
    
-   a) Subscribe the vault updates by executing **subscribeVaultUpdates**
+   a) Subscribe the vault for updates by executing **subscribeVaultUpdates**
    
-   b) Generate 100 iou's for the party by executing **generateIOUs**
+   b) Generate 100 IOU's for the party by executing **generateIOUs**
 
 Inspection of logs will show **subscription stopped after a few IOUs (Approx 9)**
