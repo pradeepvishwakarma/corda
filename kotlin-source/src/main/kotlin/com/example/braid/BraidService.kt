@@ -3,6 +3,7 @@ package com.example.braid
 import com.example.db.MyDbService
 import com.example.flow.ExampleFlow
 import com.example.state.IOUState
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.bluebank.braid.corda.services.transaction
 import io.vertx.core.Vertx
 import net.corda.core.contracts.StateAndRef
@@ -44,7 +45,7 @@ class BraidService(private val serviceHub: AppServiceHub, private val vertx : Ve
 
         return Observable.create { subscriber ->
 
-            val pageSpec = PageSpecification(1, 10)
+            val pageSpec = PageSpecification(1, 1)
             val criteria: QueryCriteria.LinearStateQueryCriteria = QueryCriteria.LinearStateQueryCriteria()
             val results = serviceHub.vaultService.trackBy(contractStateType = IOUState::class.java, criteria = criteria, paging = pageSpec)
             val updates= results.updates
@@ -66,16 +67,11 @@ class BraidService(private val serviceHub: AppServiceHub, private val vertx : Ve
     fun calculateTotalRecords() : Long {
 
         val criteria: QueryCriteria.LinearStateQueryCriteria = QueryCriteria.LinearStateQueryCriteria(status =  Vault.StateStatus.UNCONSUMED)
-        val results=  serviceHub.vaultService.queryBy<IOUState>(criteria=criteria,paging = PageSpecification(1,10))
+        val results=  serviceHub.vaultService.queryBy<IOUState>(criteria=criteria,paging = PageSpecification(1,1))
         val totalRecord =  results.totalStatesAvailable
         return totalRecord
 
 
-        /*
-        val total = (serviceHub as ServiceHubInternal).database.transaction {
-            val dbService = serviceHub.cordaService(MyDbService::class.java)
-             dbService.getTotalRecords()
-        }
-        return total ?: 0*/
+
     }
 }
