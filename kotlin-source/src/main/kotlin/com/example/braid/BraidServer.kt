@@ -1,6 +1,7 @@
 package com.example.braid
 
 import io.bluebank.braid.corda.BraidConfig
+import io.bluebank.braid.core.json.BraidJacksonInit
 import io.vertx.core.Handler
 import io.vertx.core.Vertx
 import io.vertx.core.http.HttpServerOptions
@@ -17,6 +18,9 @@ class BraidServer(private val serviceHub: AppServiceHub) : SingletonSerializeAsT
 
     companion object {
         private val log = loggerFor<BraidServer>()
+        init {
+            BraidJacksonInit.init()
+        }
     }
 
     init {
@@ -24,16 +28,16 @@ class BraidServer(private val serviceHub: AppServiceHub) : SingletonSerializeAsT
     }
 
     private fun BraidConfig.bootstrap() {
-
+        val name = serviceHub.myInfo.legalIdentities.first().name
         val vertx = Vertx.vertx()
         this.withVertx(vertx)
-                .withService("braidService", BraidService(serviceHub, vertx))
+                .withService("braidService", BraidServiceImpl(serviceHub, vertx))
                 .withHttpServerOptions(HttpServerOptions().setSsl(false))
                 .bootstrapBraid(serviceHub, Handler { result ->
                     if (result.failed()) {
-                        log.error("failed to start up braid service", result.cause())
+                        log.error("$name failed to start up braid service", result.cause())
                     } else {
-                        log.info("started braid service")
+                        log.info("$name started braid service")
                     }
                 })
 

@@ -3,7 +3,6 @@ package com.example.flow
 import co.paralleluniverse.fibers.Suspendable
 import com.example.contract.IOUContract
 import com.example.contract.IOUContract.Companion.IOU_CONTRACT_ID
-import com.example.db.MyDbService
 import com.example.db.MyService
 import com.example.flow.ExampleFlow.Acceptor
 import com.example.flow.ExampleFlow.Initiator
@@ -12,9 +11,6 @@ import net.corda.core.contracts.Command
 import net.corda.core.contracts.requireThat
 import net.corda.core.flows.*
 import net.corda.core.identity.Party
-import net.corda.core.messaging.startTrackedFlow
-import net.corda.core.messaging.vaultQueryBy
-import net.corda.core.node.AppServiceHub
 import net.corda.core.node.services.Vault
 import net.corda.core.node.services.queryBy
 import net.corda.core.node.services.vault.PageSpecification
@@ -23,7 +19,6 @@ import net.corda.core.transactions.SignedTransaction
 import net.corda.core.transactions.TransactionBuilder
 import net.corda.core.utilities.ProgressTracker
 import net.corda.core.utilities.ProgressTracker.Step
-import net.corda.core.utilities.getOrThrow
 
 /**
  * This flow allows two parties (the [Initiator] and the [Acceptor]) to come to an agreement about the IOU encapsulated
@@ -66,13 +61,11 @@ object ExampleFlow {
         }
     }
 
-
     @InitiatingFlow
     @StartableByRPC
     @StartableByService
     class StressTestFlow(val iouValue: Int,
                          val otherParty: Party) : FlowLogic<Boolean>() {
-
         @Suspendable
         override fun call() : Boolean{
 
@@ -121,7 +114,7 @@ object ExampleFlow {
         @Suspendable
         override fun call(): SignedTransaction {
 
-            logger.info("creating iou")
+            logger.info("creating iou $iouValue")
 
             // Obtain a reference to the notary we want to use.
             val notary = serviceHub.networkMapCache.notaryIdentities[0]
