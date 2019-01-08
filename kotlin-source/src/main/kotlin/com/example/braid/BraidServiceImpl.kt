@@ -52,7 +52,7 @@ class BraidServiceImpl(private val serviceHub: AppServiceHub, private val vertx:
         val results = serviceHub.vaultService.trackBy(contractStateType = IOUState::class.java, criteria = criteria, paging = pageSpec)
         // we do this as a single subscribable flow - no need to subscribe within a subscription
         return results.updates
-            .observeOn(Schedulers.newThread()) // this was the key technique to avoid jamming up corda's hibernate transactions
+            .observeOn(Schedulers.computation()) // this was the key technique to avoid jamming up corda's hibernate transactions
             .map { // for each event, recompute the total
                 calculateTotalRecords()
             }
