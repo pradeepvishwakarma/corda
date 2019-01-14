@@ -84,7 +84,7 @@ class BraidServiceImpl(private val serviceHub: AppServiceHub, private val vertx:
     }
 }
 
-
+/*
 open class CustomSyncOnSubscriber : SyncOnSubscribe<Long, Long>() {
 
 
@@ -92,12 +92,11 @@ open class CustomSyncOnSubscriber : SyncOnSubscribe<Long, Long>() {
 
     override fun next(counter: Long, observer: Observer<in Long>): Long {
 
-
-
         observer.onNext(counter)
         return counter + 1
     }
+
     override fun onUnsubscribe(state: Long) {
 
     }
-}
+}*/
