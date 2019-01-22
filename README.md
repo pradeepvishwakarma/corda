@@ -2,7 +2,7 @@
   <img src="https://www.corda.net/wp-content/uploads/2016/11/fg005_corda_b.png" alt="Corda" width="500">
 </p>
 
-https://vpradeep.visualstudio.com/vpradeep0801/_apis/build/status/vpradeep0801-Gradle-CI?branchName=issue/braid-cordaservice
+
 [![Build Status](https://vpradeep.visualstudio.com/vpradeep0801/_apis/build/status/vpradeep0801-Gradle-CI?branchName=issue/braid-cordaservice)](https://vpradeep.visualstudio.com/vpradeep0801/_build/latest?definitionId=4?branchName=issue/braid-cordaservice)
 
 # Modified Example CorDapp(Kotlin) to show subscription and DB issue
